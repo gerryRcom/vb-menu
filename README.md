@@ -1,7 +1,7 @@
 # vb-menu
 Basic terminal based menu to simplify remote management of Virtual Box VMs
 
-Using VirtualBox to run VMs I need a quick way to be able to manage the VMs remotely when connected over ssh. The `vboxmanage` command is extremely powerful, but if I'm working remotely I really just need to be able to run a few key commands on a VM, it#s running on my desktop so I generally don't like to leave all VMs running
+Using VirtualBox to run VMs I need a quick way to be able to manage the VMs remotely when connected over ssh. The `vboxmanage` command is extremely powerful, but if I'm working remotely I really just need to be able to run a few key commands on a VM, it's running on my desktop so I generally don't like to leave all VMs running
 
 **Initial commands:**
 
