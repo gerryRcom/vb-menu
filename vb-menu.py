@@ -2,13 +2,7 @@
 # imports to allow running of shell commands
 import subprocess
 
-#def queryip(queryipinput):
-#  ipresult = subprocess.run(['ping', '-c 2', queryipinput], capture_output=True, text=True)
-#  if (ipresult.stderr != ""):
-#    return ipresult.stderr
-#  else:
-#    return ipresult.stdout
-
+# terminal colour text codes (found via a so page)
 class bcolors:
     GREEN = '\033[92m'
     ORANGE = '\033[93m'
@@ -16,8 +10,7 @@ class bcolors:
     END = '\033[0m'
     vmTag = ''
 
-
-# check that a VirtualBox service exists on the computer.
+# check that a VirtualBox service exists.
 def vboxInstalled():
   vboxInstalled = subprocess.run(['systemctl', 'status', 'virtualbox'], capture_output=True, text=True)
   if (vboxInstalled.stderr != ""):
@@ -81,13 +74,15 @@ def main():
   allVMs = allVM()
   vmList = []
 
-  # print list of VMs found inc running status (red stopped, green running)
+  # check that the VirtualBox service exists, if not end.
   if("active" in vboxService):
     menuCount = 0
 
+    # if no VMs were found inform the user and end.
     if(allVMs == ""):
       print("No VBox VMs found")
     else:
+        # print list of VMs found inc running status (red stopped, green running)
         print("\n")
         print("See list of current VMs (Green: running, Red: stopped)")
         print("------------------------------------------------------")
@@ -110,10 +105,10 @@ def main():
             print(bcolors.vmTag + str(menuCount) + ") " + vm + bcolors.END)
             vmList.append(vm)
             menuCount += 1
+        
         print("\n")
-
         vmSelect = input("Which VM would you like to manage (0 - " + str(menuCount-1) +"): ")
-        # if an invalid entry is input request input again.
+        # if an invalid entry is entered request input again.
         while(not vmSelect.isdecimal() or vmSelect == "" or int(vmSelect) < 0 or int(vmSelect) > menuCount - 1):
           vmSelect = input("Invalid input, try again (0 - " + str(menuCount-1) +"): ")
 
@@ -132,7 +127,7 @@ def main():
         while(not actionSelect.isdecimal() or actionSelect == "" or int(actionSelect) < 0 or int(actionSelect) > 3):
           actionSelect = input("Invalid input, try again (0 - 3): ")
 
-        # perform the selected action on the selected vm
+        # perform the selected action on the selected vm, parsing the text to just the VM name
         if(actionSelect == "0"):
             print(startVM(vmList[int(vmSelect)].split(None, 1)[0].strip('\"')))
         elif(actionSelect == "1"):
@@ -143,7 +138,6 @@ def main():
             print(powerOffVM(vmList[int(vmSelect)].split(None, 1)[0].strip('\"')))
         else:
             print("Invalid selection")
-
 
   # report if no VirtualBox service found
   else:
