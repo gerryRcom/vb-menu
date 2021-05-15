@@ -6,7 +6,7 @@ Using VirtualBox to run VMs I need a quick way to be able to manage the VMs remo
 **Initial commands:**
 
 * Start a VM (*Headless*)
-* Restart a VM (*Force*)
+* Reset a VM (*Force*)
 * Close a VM (*Saving state*)
 * Power off a VM (*Force*)
 

@@ -14,6 +14,7 @@ class bcolors:
     ORANGE = '\033[93m'
     RED = '\033[91m'
     END = '\033[0m'
+    vmTag = ''
 
 
 # check that a VirtualBox service exists on the computer.
@@ -48,6 +49,14 @@ def startVM(selectedVM):
   else:
     return startVMoutput.stdout
 
+# reset the selected VM
+def resetVM(selectedVM):
+  resetVMoutput = subprocess.run(['vboxmanage', 'controlvm', selectedVM, 'reset'], capture_output=True, text=True)
+  if (resetVMoutput.stderr != ""):
+    return resetVMoutput.stderr
+  else:
+    return resetVMoutput.stdout
+
 
 def main():
 
@@ -67,22 +76,24 @@ def main():
         print("See list of current VMs (Green: running, Red: stopped)")
         print("------------------------------------------------------")
         for vm in allVMs.splitlines():
+          # set default colour for the list of VMs to red
+          bcolors.vmTag='\033[91m'
+          # if there are no running VMs just list all VMs in red
           if(runningVMs == ""):
-            vmList.append(vm.split())
-            print(bcolors.RED + str(menuCount) + ") " + vm + bcolors.END)
+            vmList.append(vm)
+            print(bcolors.vmTag + str(menuCount) + ") " + vm + bcolors.END)
             menuCount += 1
           else:
             for vm2 in runningVMs.splitlines():
+              # if a vm is running change the color to green
               if(vm == vm2):
-                #vmList.append(bcolors.GREEN + vm + bcolors.END)
-                vmList.append(vm)
-                print(bcolors.GREEN + str(menuCount) + ") " + vm + bcolors.END)
-                menuCount += 1
-              else:
-                #vmList.append(bcolors.RED + vm + bcolors.END)
-                vmList.append(vm)
-                print(bcolors.RED + str(menuCount) + ") " + vm + bcolors.END)
-                menuCount += 1
+                bcolors.vmTag='\033[92m'
+            
+            # print list of vms with appropriate color based on running state
+            # build the numeric menu list to allow selection for actions
+            print(bcolors.vmTag + str(menuCount) + ") " + vm + bcolors.END)
+            vmList.append(vm)
+            menuCount += 1
         print("\n")
         vmSelect = input("Which VM would you like to manage (0 - " + str(menuCount-1) +"): ")
         # if an invalid number is entered prompt again ### need to catch non numberic entries
@@ -106,7 +117,7 @@ def main():
         if(actionSelect == "0"):
             print(startVM(vmList[int(vmSelect)].split(None, 1)[0].strip('\"')))
         elif(actionSelect == "1"):
-            print("One")
+            print(resetVM(vmList[int(vmSelect)].split(None, 1)[0].strip('\"')))
         elif(actionSelect == "2"):
             print("Two")
         elif(actionSelect == "3"):
