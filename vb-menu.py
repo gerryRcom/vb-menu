@@ -57,6 +57,22 @@ def resetVM(selectedVM):
   else:
     return resetVMoutput.stdout
 
+# Save state of the selected VM and close
+def saveVM(selectedVM):
+  saveVMoutput = subprocess.run(['vboxmanage', 'controlvm', selectedVM, 'savestate'], capture_output=True, text=True)
+  if (saveVMoutput.stderr != ""):
+    return saveVMoutput.stderr
+  else:
+    return saveVMoutput.stdout
+
+# Save state of the selected VM and close
+def powerOffVM(selectedVM):
+  powerOffVMoutput = subprocess.run(['vboxmanage', 'controlvm', selectedVM, 'poweroff'], capture_output=True, text=True)
+  if (powerOffVMoutput.stderr != ""):
+    return powerOffVMoutput.stderr
+  else:
+    return powerOffVMoutput.stdout
+
 
 def main():
 
@@ -119,9 +135,9 @@ def main():
         elif(actionSelect == "1"):
             print(resetVM(vmList[int(vmSelect)].split(None, 1)[0].strip('\"')))
         elif(actionSelect == "2"):
-            print("Two")
+            print(saveVM(vmList[int(vmSelect)].split(None, 1)[0].strip('\"')))
         elif(actionSelect == "3"):
-            print("Three")
+            print(powerOffVM(vmList[int(vmSelect)].split(None, 1)[0].strip('\"')))
         else:
             print("Invalid selection")
 

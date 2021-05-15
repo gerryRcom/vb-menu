@@ -15,3 +15,5 @@ List is incomplete, just the first few options that come to mind.
 **Instructions:**
 
 Just run the python file, it will list VMs on the machine and their current state and let you pick a VM and an action to run on it.
+
+![](vb-menu.png)
