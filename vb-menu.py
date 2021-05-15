@@ -111,11 +111,13 @@ def main():
             vmList.append(vm)
             menuCount += 1
         print("\n")
+
         vmSelect = input("Which VM would you like to manage (0 - " + str(menuCount-1) +"): ")
-        # if an invalid number is entered prompt again ### need to catch non numberic entries
-        while(int(vmSelect) < 0 or int(vmSelect) > menuCount - 1):
-          vmSelect = input("Invalid selection, try again (0 - " + str(menuCount-1) +"): ")
-        
+        # if an invalid entry is input request input again.
+        while(not vmSelect.isdecimal() or vmSelect == "" or int(vmSelect) < 0 or int(vmSelect) > menuCount - 1):
+          vmSelect = input("Invalid input, try again (0 - " + str(menuCount-1) +"): ")
+
+        # print options menu      
         print("")
         print("Selected VM: " + vmList[int(vmSelect)])
         print("Options:")
@@ -124,12 +126,13 @@ def main():
         print("1) Reset the VM")
         print("2) Save the VM state")
         print("3) Power off the VM")
+
         actionSelect = input("What do you want to do with the selected VM (0 - 3): ")
-        # if an invalid number is entered prompt again ### need to catch non numberic entries
-        while(int(actionSelect) < 0 or int(actionSelect) > 3):
-          actionSelect = input("Invalid selection, try again (0 - 3): ")
-        
-        # perform the select action on the selected vm
+        # if a blank or non-numeric value is entered request input again.
+        while(not actionSelect.isdecimal() or actionSelect == "" or int(actionSelect) < 0 or int(actionSelect) > 3):
+          actionSelect = input("Invalid input, try again (0 - 3): ")
+
+        # perform the selected action on the selected vm
         if(actionSelect == "0"):
             print(startVM(vmList[int(vmSelect)].split(None, 1)[0].strip('\"')))
         elif(actionSelect == "1"):
