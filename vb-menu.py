@@ -68,14 +68,14 @@ def powerOffVM(selectedVM):
 
 
 def main():
-
+  # check for VirtualBox service
   vboxService = vboxInstalled()
-  runningVMs = runningVM()
-  allVMs = allVM()
-  vmList = []
 
   # check that the VirtualBox service exists, if not end.
   if("active" in vboxService):
+    runningVMs = runningVM()
+    allVMs = allVM()
+    vmList = []
     menuCount = 0
 
     # if no VMs were found inform the user and end.
@@ -141,6 +141,6 @@ def main():
 
   # report if no VirtualBox service found
   else:
-    print("No VBox Service found")
+    print("No VirtualBox service found")
 if __name__ == '__main__':
     main()
